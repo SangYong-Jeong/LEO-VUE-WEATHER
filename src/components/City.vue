@@ -9,6 +9,7 @@ export default {
   computed: {
     style: function () {
       if (this.styled) {
+        console.log(this.name)
         return `
         font-size: ${this.styled.size || 'inheit'};
         color: ${this.styled.color || 'inherit'};`

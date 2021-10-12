@@ -10,6 +10,7 @@ export default {
   props: ['src', 'title', 'styled'],
   computed: {
     style: function () {
+      console.log(this.src)
       if (this.styled && this.styled.width) {
         return `width: ${this.styled.width};`
       } else {
