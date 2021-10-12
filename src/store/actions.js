@@ -3,6 +3,7 @@ import apiWeather from '../api/api-weather'
 
 const ACT_COORDS = async ({ commit }) => {
   try {
+    console.log('act')
     const { lat, lon } = await apiCoords()
     commit('MUT_COORDS', { lat, lon })
   } catch (err) {
