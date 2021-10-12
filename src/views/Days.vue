@@ -30,6 +30,7 @@ export default {
   },
   watch: {
     GET_COORDS: function (v, ov) {
+      console.log('watch')
       this.$store.dispatch('ACT_DAYS', v)
     }
   },
@@ -37,6 +38,8 @@ export default {
 
   },
   created () {
+    console.log(this.GET_DAYS)
+    console.log(this.city)
     console.log('created')
     this.$store.dispatch('ACT_COORDS')
   }
