@@ -22,7 +22,7 @@ export default {
   computed: {
     ...mapGetters(['GET_COORDS', 'GET_DAYS']),
     city: function () {
-      console.log('city')
+      console.log('city', this.GET_DAYS)
       return (Number(this.GET_DAYS.cod) === 200)
         ? `${this.GET_DAYS.city.name}, ${this.GET_DAYS.city.country}`
         : ''
@@ -30,7 +30,7 @@ export default {
   },
   watch: {
     GET_COORDS: function (v, ov) {
-      console.log('watch')
+      console.log('days-coords-watch')
       this.$store.dispatch('ACT_DAYS', v)
     }
   },
@@ -38,9 +38,13 @@ export default {
 
   },
   created () {
+    console.log(this.GET_COORDS)
+    console.log(this.GET_DAYS)
     if (!this.GET_COORDS.lat) {
+      console.log('days-created-01')
       this.$store.dispatch('ACT_COORDS')
     } else {
+      console.log('days-created-02')
       this.$store.dispatch('ACT_COORDS', {
         lat: this.GET_COORDS.lat,
         lon: this.GET_COORDS.lon

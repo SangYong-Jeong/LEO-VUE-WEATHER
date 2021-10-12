@@ -50,34 +50,41 @@ export default {
           city.push({ value: { lat: v.lat, lon: v.lon }, text: v.name })
         }
       })
+      console.log('options')
       return city
     },
     city: function () {
+      console.log('day-city', this.GET_DAILY)
       return (this.GET_DAILY.cod === 200)
         ? `${this.GET_DAILY.name}, ${this.GET_DAILY.sys.country}`
         : ''
     },
     src: function () {
+      console.log('day-src')
       return (this.GET_DAILY.cod === 200)
         ? getIcon(this.GET_DAILY.weather[0].icon)
         : PLACEHOLDER
     },
     temp: function () {
+      console.log('day-temp')
       return (this.GET_DAILY.cod === 200)
         ? this.GET_DAILY.main.temp + '℃'
         : ''
     },
     desc: function () {
+      console.log('day-desc')
       return (this.GET_DAILY.cod === 200)
         ? this.GET_DAILY.weather[0].description + ' / ' + this.GET_DAILY.weather[0].main
         : ''
     },
     deg: function () {
+      console.log('day-deg')
       return (this.GET_DAILY.cod === 200)
         ? this.GET_DAILY.wind.deg
         : ''
     },
     speed: function () {
+      console.log('day-speed')
       return (this.GET_DAILY.cod === 200)
         ? this.GET_DAILY.wind.speed
         : ''
@@ -85,9 +92,11 @@ export default {
   },
   watch: {
     GET_COORDS: function (v, ov) {
+      console.log('daily-coords')
       this.$store.dispatch('ACT_DAILY', v)
     },
     selected: function (v, ov) {
+      console.log('daily-selected')
       if (v) this.$store.dispatch('ACT_COORDS', v)
     }
   },
