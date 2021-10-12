@@ -4,6 +4,7 @@ export default {
     return state.coords
   },
   GET_DAILY: function (state) {
+    console.log('daily')
     return state.daily
   },
   GET_DAYS: function (state) {
@@ -11,6 +12,7 @@ export default {
     return state.days
   },
   GET_CITY: function (state) {
+    console.log('city-getter')
     return state.city
   }
 }

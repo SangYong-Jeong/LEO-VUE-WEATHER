@@ -3,6 +3,11 @@
     <div class="city-wrap">
       <h2 class="title">도시별 날씨 정보</h2>
       <b-form-select v-model="selected" :options="options" size="lg" />
+      <b-button
+        variant="primary"
+        @click="getPosition">
+        현재위치 날씨정보
+      </b-button>
     </div>
     <City :styled="{ size: '2em' }" :name="city" class="city" />
     <Icon :styled="{ width: '100px' }" :src="src" class="icon" />
@@ -37,6 +42,13 @@ export default {
       const city = []
       this.GET_CITY.forEach((v, i) => {
         if (i === 0) city.push({ value: null, text: '도시를 선택하세요' })
+        if (v.title) {
+          city.push({ value: null, text: '-------------', disabled: true })
+          city.push({ value: null, text: v.name, disabled: true })
+          city.push({ value: null, text: '-------------', disabled: true })
+        } else {
+          city.push({ value: { lat: v.lat, lon: v.lon }, text: v.name })
+        }
       })
       return city
     },
@@ -75,12 +87,18 @@ export default {
     GET_COORDS: function (v, ov) {
       this.$store.dispatch('ACT_DAILY', v)
     },
-    GET_DAILY: function (v, ov) {
-      console.log(v)
+    selected: function (v, ov) {
+      if (v) this.$store.dispatch('ACT_COORDS', v)
+    }
+  },
+  methods: {
+    getPosition () {
+      this.selected = null
+      this.$store.dispatch('ACT_COORDS')
     }
   },
   created () {
-    this.$store.dispatch('ACT_COORDS')
+    if (!this.GET_COORDS.lat) this.$store.dispatch('ACT_COORDS')
     this.$store.dispatch('ACT_CITY')
   }
 }
@@ -94,9 +112,12 @@ export default {
     max-width: 300px;
     padding-bottom: 1em;
     margin-bottom: 1em;
+    text-align: center;
     .title {
-      text-align: center;
       font-size: 1.5em;
+      margin-bottom: .5em;
+    }
+    select {
       margin-bottom: .5em;
     }
   }

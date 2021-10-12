@@ -3,11 +3,15 @@ import apiWeather from '../api/api-weather'
 import apiCity from '../api/api-city'
 import { DEF_COORDS } from '../modules/common'
 
-const ACT_COORDS = async ({ commit }) => {
+const ACT_COORDS = async ({ commit }, v) => {
   try {
-    console.log('act')
-    const { lat, lon } = await apiCoords()
-    commit('MUT_COORDS', { lat, lon })
+    if (v) {
+      commit('MUT_COORDS', v)
+    } else {
+      console.log('act')
+      const { lat, lon } = await apiCoords()
+      commit('MUT_COORDS', { lat, lon })
+    }
   } catch (err) {
     commit('MUT_COORDS', { lat: DEF_COORDS.lat, lon: DEF_COORDS.lon })
   }
@@ -24,6 +28,7 @@ const ACT_DAYS = async ({ commit }, v) => {
 }
 
 const ACT_CITY = async ({ commit }) => {
+  console.log('act2')
   const { data } = await apiCity()
   commit('MUT_CITY', data.city)
 }

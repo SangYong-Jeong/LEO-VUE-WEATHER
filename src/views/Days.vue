@@ -38,10 +38,14 @@ export default {
 
   },
   created () {
-    console.log(this.GET_DAYS)
-    console.log(this.city)
-    console.log('created')
-    this.$store.dispatch('ACT_COORDS')
+    if (!this.GET_COORDS.lat) {
+      this.$store.dispatch('ACT_COORDS')
+    } else {
+      this.$store.dispatch('ACT_COORDS', {
+        lat: this.GET_COORDS.lat,
+        lon: this.GET_COORDS.lon
+      })
+    }
   }
 }
 </script>

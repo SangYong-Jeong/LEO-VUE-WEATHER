@@ -11,6 +11,7 @@ export default {
     state.days = v
   },
   MUT_CITY (state, v) {
+    console.log('mut2')
     state.city = v
   }
 }
