@@ -13,9 +13,7 @@ export default {
         font-size: ${this.styled.size || 'inheit'};
         color: ${this.styled.color || 'inherit'};`
       } else {
-        return `
-        font-size: inherit; 
-        color: inheit;`
+        return ''
       }
     }
   }
