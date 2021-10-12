@@ -9,5 +9,8 @@ export default {
   GET_DAYS: function (state) {
     console.log('days')
     return state.days
+  },
+  GET_CITY: function (state) {
+    return state.city
   }
 }
