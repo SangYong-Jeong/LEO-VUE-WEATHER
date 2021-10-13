@@ -1,7 +1,7 @@
 <template>
   <div class="days">
     <City :styled="{ size: '1.75em' }" :name="city" class="city" />
-    <ListWrap class="list-wrap" />
+    <ListWrap class="list-wrap" :days="days" />
   </div>
 </template>
 
@@ -10,36 +10,37 @@ import { mapGetters } from 'vuex'
 import City from '../components/City.vue'
 import ListWrap from '../components/ListWrap.vue'
 
+import apiDays from '../api/api-days'
+
 export default {
   name: 'Days',
   components: { City, ListWrap },
   props: [],
   data () {
     return {
-
+      days: {}
     }
   },
   computed: {
     ...mapGetters(['GET_COORDS', 'GET_DAYS']),
     city: function () {
-      console.log('city', this.GET_DAYS)
-      return (Number(this.GET_DAYS.cod) === 200)
-        ? `${this.GET_DAYS.city.name}, ${this.GET_DAYS.city.country}`
+      console.log('city', this.days)
+      return (Number(this.days.cod) === 200)
+        ? `${this.days.city.name}, ${this.days.city.country}`
         : ''
     }
   },
   watch: {
-    GET_COORDS: function (v, ov) {
+    GET_COORDS: async function (v, ov) {
       console.log('days-coords-watch')
-      this.$store.dispatch('ACT_DAYS', v)
+      // this.$store.dispatch('ACT_DAYS', v)
+      const { data } = await apiDays(v)
+      this.days = data
     }
-  },
-  methods: {
-
   },
   created () {
     console.log(this.GET_COORDS)
-    console.log(this.GET_DAYS)
+    console.log(this.days)
     if (!this.GET_COORDS.lat) {
       console.log('days-created-01')
       this.$store.dispatch('ACT_COORDS')

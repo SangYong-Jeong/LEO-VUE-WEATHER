@@ -10,7 +10,7 @@ import { withIconComputed } from './mixins/mixinComputed.js'
 export default {
   name: 'Icon',
   props: ['src', 'title', 'styled'],
-  mixinss: [withIconComputed]
+  mixins: [withIconComputed]
 }
 </script>
 

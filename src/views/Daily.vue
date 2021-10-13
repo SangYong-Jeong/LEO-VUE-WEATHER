@@ -28,19 +28,24 @@ import Temp from '../components/Temp.vue'
 import Description from '../components/Description.vue'
 import Wind from '../components/Wind.vue'
 
+import apiCity from '../api/api-city'
+import apiDaily from '../api/api-daily'
+
 export default {
   name: 'Daily',
   components: { City, Icon, Temp, Description, Wind },
   data () {
     return {
-      selected: null
+      selected: null,
+      cities: [],
+      daily: {}
     }
   },
   computed: {
-    ...mapGetters(['GET_COORDS', 'GET_DAILY', 'GET_CITY']),
+    ...mapGetters(['GET_COORDS']),
     options: function () {
       const city = []
-      this.GET_CITY.forEach((v, i) => {
+      this.cities.forEach((v, i) => {
         if (i === 0) city.push({ value: null, text: '도시를 선택하세요' })
         if (v.title) {
           city.push({ value: null, text: '-------------', disabled: true })
@@ -54,46 +59,48 @@ export default {
       return city
     },
     city: function () {
-      console.log('day-city', this.GET_DAILY)
-      return (this.GET_DAILY.cod === 200)
-        ? `${this.GET_DAILY.name}, ${this.GET_DAILY.sys.country}`
+      console.log('day-city', this.daily)
+      return (this.daily.cod === 200)
+        ? `${this.daily.name}, ${this.daily.sys.country}`
         : ''
     },
     src: function () {
       console.log('day-src')
-      return (this.GET_DAILY.cod === 200)
-        ? getIcon(this.GET_DAILY.weather[0].icon)
+      return (this.daily.cod === 200)
+        ? getIcon(this.daily.weather[0].icon)
         : PLACEHOLDER
     },
     temp: function () {
       console.log('day-temp')
-      return (this.GET_DAILY.cod === 200)
-        ? this.GET_DAILY.main.temp + '℃'
+      return (this.daily.cod === 200)
+        ? this.daily.main.temp + '℃'
         : ''
     },
     desc: function () {
       console.log('day-desc')
-      return (this.GET_DAILY.cod === 200)
-        ? this.GET_DAILY.weather[0].description + ' / ' + this.GET_DAILY.weather[0].main
+      return (this.daily.cod === 200)
+        ? this.daily.weather[0].description + ' / ' + this.daily.weather[0].main
         : ''
     },
     deg: function () {
       console.log('day-deg')
-      return (this.GET_DAILY.cod === 200)
-        ? this.GET_DAILY.wind.deg
+      return (this.daily.cod === 200)
+        ? this.daily.wind.deg
         : ''
     },
     speed: function () {
       console.log('day-speed')
-      return (this.GET_DAILY.cod === 200)
-        ? this.GET_DAILY.wind.speed
+      return (this.daily.cod === 200)
+        ? this.daily.wind.speed
         : ''
     }
   },
   watch: {
-    GET_COORDS: function (v, ov) {
+    GET_COORDS: async function (v, ov) {
       console.log('daily-coords')
-      this.$store.dispatch('ACT_DAILY', v)
+      // this.$store.dispatch('ACT_DAILY', v)
+      const { data } = await apiDaily(v)
+      this.daily = data
     },
     selected: function (v, ov) {
       console.log('daily-selected')
@@ -106,9 +113,16 @@ export default {
       this.$store.dispatch('ACT_COORDS')
     }
   },
-  created () {
-    if (!this.GET_COORDS.lat) this.$store.dispatch('ACT_COORDS')
-    this.$store.dispatch('ACT_CITY')
+  async created () {
+    if (!this.GET_COORDS.lat) { // GET_COORDS에 데이터가 없을 때
+      this.$store.dispatch('ACT_COORDS')
+    } else {
+      const { data } = await apiDaily({ lat: this.GET_COORDS.lat, lon: this.GET_COORDS.lon })
+      this.daily = data
+    }
+    // this.$store.dispatch('ACT_CITY')
+    const { data } = await apiCity()
+    this.cities = data.city
   }
 }
 </script>
