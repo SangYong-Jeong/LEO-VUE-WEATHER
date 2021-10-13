@@ -3,21 +3,12 @@
 </template>
 
 <script>
+import { withComputed } from './mixins/mixinComputed.js'
+
 export default {
   name: 'City',
   props: ['name', 'styled'],
-  computed: {
-    style: function () {
-      if (this.styled) {
-        console.log(this.name)
-        return `
-        font-size: ${this.styled.size || 'inheit'};
-        color: ${this.styled.color || 'inherit'};`
-      } else {
-        return ''
-      }
-    }
-  }
+  mixins: [withComputed]
 }
 </script>
 

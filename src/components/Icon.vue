@@ -5,19 +5,12 @@
 </template>
 
 <script>
+import { withIconComputed } from './mixins/mixinComputed.js'
+
 export default {
   name: 'Icon',
   props: ['src', 'title', 'styled'],
-  computed: {
-    style: function () {
-      console.log(this.src)
-      if (this.styled && this.styled.width) {
-        return `width: ${this.styled.width};`
-      } else {
-        return 'width: 120px;'
-      }
-    }
-  }
+  mixinss: [withIconComputed]
 }
 </script>
 
