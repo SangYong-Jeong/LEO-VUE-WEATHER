@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import { withIconComputed } from './mixins/mixinComputed.js'
+import { withIconComputed } from '../components/mixins/mixinComputed'
 
 export default {
   name: 'Icon',
   props: ['src', 'title', 'styled'],
-  mixinss: [withIconComputed]
+  mixins: [withIconComputed]
 }
 </script>
 
