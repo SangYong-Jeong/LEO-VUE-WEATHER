@@ -62,7 +62,7 @@ export default {
       return moment(this.v.dt * 1000).format('YYYY년 M월 D일(dd) HH시 예보') || ''
     }
   }
-}
+}/*  */
 </script>
 
 <style lang="scss" scoped>
